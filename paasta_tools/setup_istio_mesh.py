@@ -254,7 +254,9 @@ def cleanup_paasta_namespace_services(
         log.info(
             f"Garbage collecting {service} since there is no reference in services.yaml"
         )
-        yield kube_client.core.delete_namespaced_service, (service, PAASTA_NAMESPACE)
+        yield partial(
+            kube_client.core.delete_namespaced_service, (service, PAASTA_NAMESPACE)
+        )
 
 
 def process_kube_services(
@@ -278,11 +280,17 @@ def process_kube_services(
         )
 
     yield from setup_paasta_namespace_services(
-        kube_client, namespaces.keys(), existing_namespace_services, existing_virtual_services,
+        kube_client,
+        namespaces.keys(),
+        existing_namespace_services,
+        existing_virtual_services,
     )
 
     yield from cleanup_paasta_namespace_services(
-        kube_client, namespaces.keys(), existing_namespace_services, existing_virtual_services,
+        kube_client,
+        namespaces.keys(),
+        existing_namespace_services,
+        existing_virtual_services,
     )
 
 
