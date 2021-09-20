@@ -55,7 +55,10 @@ def test_cleanup_paasta_namespace_services_does_not_remove_unified_svc():
     mock_existing_namespace_services = {"svc1", "svc2", "svc3", UNIFIED_K8S_SVC_NAME}
     calls = list(
         cleanup_paasta_namespace_services(
-            mock_client, mock_paasta_namespaces, mock_existing_namespace_services
+            mock_client,
+            mock_paasta_namespaces,
+            mock_existing_namespace_services,
+            mock_existing_namespace_services,
         )
     )
     funcs = {fn.func for fn in calls}
@@ -74,6 +77,9 @@ def test_cleanup_paasta_namespace_services_does_not_remove_svc_while_running_fir
 
     mock_existing_namespace_services = {}
     calls = cleanup_paasta_namespace_services(
-        mock_client, mock_paasta_namespaces, mock_existing_namespace_services
+        mock_client,
+        mock_paasta_namespaces,
+        mock_existing_namespace_services,
+        mock_existing_namespace_services,
     )
     assert len(list(calls)) == 0
