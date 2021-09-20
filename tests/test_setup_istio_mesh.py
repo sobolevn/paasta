@@ -4,8 +4,8 @@ from paasta_tools.kubernetes_tools import registration_label
 from paasta_tools.setup_istio_mesh import cleanup_paasta_namespace_services
 from paasta_tools.setup_istio_mesh import sanitise_kubernetes_service_name
 from paasta_tools.setup_istio_mesh import setup_paasta_namespace_services
-from paasta_tools.setup_istio_mesh import setup_unified_service
 from paasta_tools.setup_istio_mesh import UNIFIED_K8S_SVC_NAME
+from paasta_tools.setup_istio_mesh import setup_paasta_routing
 from paasta_tools.setup_istio_mesh import UNIFIED_SVC_PORT
 
 
@@ -32,11 +32,11 @@ def test_setup_kube_service():
     assert k8s_svc.spec.selector == {registration_label(service_name): "true"}
 
 
-def test_setup_unified_service():
+def test_setup_paasta_routing():
     mock_client = mock.Mock()
     mock_namespaces = dict(foo=dict(proxy_port=MOCK_PORT_NUMBER))
 
-    fn, *rest = setup_unified_service(
+    fn, *rest = setup_paasta_routing(
         kube_client=mock_client, namespaces=mock_namespaces,
     )
     k8s_svc = fn.args[0][1]
