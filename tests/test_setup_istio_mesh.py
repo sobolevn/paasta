@@ -75,5 +75,7 @@ def test_cleanup_paasta_namespace_services_does_not_remove_svc_while_running_fir
     mock_paasta_namespaces = {"svc1", "svc2"}
 
     mock_existing_namespace_services = {}
-    calls = cleanup_paasta_namespace_services(mock_client, mock_paasta_namespaces, mock_existing_namespace_services)
+    calls = cleanup_paasta_namespace_services(
+        mock_client, mock_paasta_namespaces, mock_existing_namespace_services
+    )
     assert len(list(calls)) == 0
