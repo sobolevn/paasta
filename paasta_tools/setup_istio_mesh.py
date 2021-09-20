@@ -257,6 +257,16 @@ def cleanup_paasta_namespace_services(
         yield partial(
             kube_client.core.delete_namespaced_service, (service, PAASTA_NAMESPACE)
         )
+        yield partial(
+            kube_client.custom.delete_namespaced_custom_object,
+            (
+                "networking.istio.io",
+                "v1beta1",
+                PAASTA_NAMESPACE,
+                "virtualservices",
+                service,
+            ),
+        )
 
 
 def process_kube_services(
